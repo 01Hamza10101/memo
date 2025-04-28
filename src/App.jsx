@@ -119,7 +119,7 @@ function App() {
         <div className="absolute flex justify-center items-center w-full h-full bg-black bg-opacity-70 z-30">
           <div className="relative bg-gray-800 w-full h-full max-w-4xl p-4 flex justify-center">
             <button
-              className="absolute top-4 right-4 p-2 bg-gray-800 text-white rounded-full hover:bg-gray-700"
+              className="absolute top-6 right-4 p-2 bg-gray-800 text-white rounded-full hover:bg-gray-700"
               onClick={() => setIsViewingImage(false)}
             >
               <Icon.Cancel />
@@ -128,7 +128,6 @@ function App() {
               className="max-w-full max-h-full object-contain rounded-lg shadow-lg"
               src={imageData}
               alt="Viewing"
-              style={{ touchAction: "none" }} // Prevent default pinch zoom on touch devices
             />
           </div>
         </div>
