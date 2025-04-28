@@ -28,7 +28,6 @@ export const saveTodo = async (title, imageFile) => {
     completed: [],
     imageFile: null,
   };
-
   if (imageFile) {
     if (imageFile instanceof Blob || imageFile instanceof File) {
       const reader = new FileReader();
