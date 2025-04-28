@@ -22,7 +22,7 @@ export const saveTodo = async (title, imageFile) => {
   const db = await initDB();
   const todo = {
     id: Date.now(),
-    date: "28/04/2025",
+    date: formattedDate,
     title,
     Cancel: 0,
     completed: [],
