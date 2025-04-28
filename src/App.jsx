@@ -1,4 +1,4 @@
-import { useState, useEffect ,useRef} from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import TopicCard from "./componets/TopicCard";
 import { saveTodo, getTodos, deleteTodo, getTodayTodos, CancelTodos, completedTodos } from "./componets/indexedDB";
@@ -86,7 +86,7 @@ function App() {
     <div className="h-screen w-screen overflow-x-scroll hide-scrollbar bg-gray-800 text-white relative">
       {/* Add Topic Modal */}
       {isAddingTopic && (
-        <div className="absolute flex flex-col bg-gray-600 z-20 right-4 top-3 w-96 p-4">
+        <div className="absolute flex flex-col bg-gray-600 z-20 right-4 top-3 sm:w-96 p-4">
           <button className="absolute top-2 right-2" onClick={() => setIsAddingTopic(false)}>
             <Icon.Cancel />
           </button>
@@ -117,14 +117,23 @@ function App() {
       {/* Image Viewer Modal */}
       {isViewingImage && (
         <div className="absolute flex justify-center items-center w-full h-full bg-black bg-opacity-70 z-30">
-          <div className="relative bg-gray-600 w-9/12 h-9/12 flex justify-center">
-            <button className="absolute top-2 right-2" onClick={() => setIsViewingImage(false)}>
+          <div className="relative bg-gray-800 w-full h-full max-w-4xl p-4 flex justify-center">
+            <button
+              className="absolute top-4 right-4 p-2 bg-gray-800 text-white rounded-full hover:bg-gray-700"
+              onClick={() => setIsViewingImage(false)}
+            >
               <Icon.Cancel />
             </button>
-            <img className="h-full object-contain" src={imageData} alt="Viewing" />
+            <img
+              className="max-w-full max-h-full object-contain rounded-lg shadow-lg"
+              src={imageData}
+              alt="Viewing"
+              style={{ touchAction: "none" }} // Prevent default pinch zoom on touch devices
+            />
           </div>
         </div>
       )}
+
 
       {/* Main Content */}
       <div className="p-4 flex flex-col gap-4">
