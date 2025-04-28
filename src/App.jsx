@@ -40,7 +40,6 @@ function App() {
   const [imageData, setImageData] = useState(null);
   const [title, setTitle] = useState("");
   const [isAddingTopic, setIsAddingTopic] = useState(false);
-  const [isViewingImage, setIsViewingImage] = useState(false);
 
   const fileInputRef = useRef()
 
@@ -82,6 +81,27 @@ function App() {
     loadTodos();
   };
 
+  const handleOpenImage = () => {
+    if (!imageData || typeof imageData !== "string") {
+      console.log("No valid image available");
+      return;
+    }
+  
+    const newTab = window.open();
+    if (newTab) {
+      newTab.document.write(`
+        <html>
+          <head><title>Image</title></head>
+          <body style="margin:0; display:flex; align-items:center; justify-content:center; background:black;">
+            <img src="${imageData}" style="max-width:100%; max-height:100%;" />
+          </body>
+        </html>
+      `);
+      newTab.document.close();
+    } else {
+      console.error("Failed to open a new tab.");
+    }
+  };
   return (
     <div className="h-screen w-screen overflow-x-scroll hide-scrollbar bg-gray-800 text-white relative">
       {/* Add Topic Modal */}
@@ -110,25 +130,6 @@ function App() {
             <button className="p-2 bg-green-500 font-bold text-white w-full" onClick={handleTopicAdd}>
               Add
             </button>
-          </div>
-        </div>
-      )}
-
-      {/* Image Viewer Modal */}
-      {isViewingImage && (
-        <div className="absolute flex justify-center items-center w-full h-full bg-black bg-opacity-70 z-30">
-          <div className="relative bg-gray-800 w-full h-full max-w-4xl p-4 flex justify-center">
-            <button
-              className="absolute top-6 right-4 p-2 bg-gray-800 text-white rounded-full hover:bg-gray-700"
-              onClick={() => setIsViewingImage(false)}
-            >
-              <Icon.Cancel />
-            </button>
-            <img
-              className="max-w-full max-h-full object-contain rounded-lg shadow-lg"
-              src={imageData}
-              alt="Viewing"
-            />
           </div>
         </div>
       )}
@@ -185,7 +186,7 @@ function App() {
                   className="absolute top-2 right-2 bg-gray-700 rounded p-1"
                   onClick={() => {
                     setImageData(imageFile);
-                    setIsViewingImage(true);
+                    handleOpenImage();
                   }}
                 >
                   <Icon.See />
