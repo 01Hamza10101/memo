@@ -1,7 +1,7 @@
 import Icon from "./Icons";
 
 const IconWrapper = ({ children }) => (
-  <div className="w-8 h-8 p-1 rounded z-10 cursor-pointer">
+  <div className="p-1 rounded z-10 cursor-pointer">
     {children}
   </div>
 );
