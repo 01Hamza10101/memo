@@ -129,7 +129,7 @@ function App() {
 
         <div className="flex flex-wrap justify-center gap-4">
           {todayTopicData.length > 0 ? (
-            todayTopicData.map(async ({ title, id, date, imageFile }) => (
+            todayTopicData.map(({ title, id, date, imageFile }) => (
               <TopicCard
                 key={id}
                 topic={{ title, id, imageFile }}
