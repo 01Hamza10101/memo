@@ -108,11 +108,29 @@ const parseDate = (dateString) => {
 };
 
 // Check if the upload date is within the selected days
-const isSelectedDay = (uploadDate, todayDate, Cancel) => {
-  const selectedDays = [1, 2, 3, 5, 7, 9, 12, 15, 19, 23, 25];
-  const diff = todayDate - uploadDate - Cancel;
-  return diff >= 0 && selectedDays.includes(diff);
+const isSelectedDay = (uploadDay, todayDay, cancelDays) => {
+  const selectedDays = [0, 1, 2, 3, 5, 7, 9, 12, 15, 19, 23, 25];
+
+  // Assume upload date is last month if uploadDay > todayDay
+  const today = new Date();
+  const thisMonth = today.getMonth();
+  const thisYear = today.getFullYear();
+
+  const todayDate = new Date(thisYear, thisMonth, todayDay);
+
+  const uploadMonth = uploadDay > todayDay ? thisMonth - 1 : thisMonth;
+  const uploadYear = uploadMonth < 0 ? thisYear - 1 : thisYear;
+  const normalizedUploadMonth = (uploadMonth + 12) % 12;
+
+  const uploadDate = new Date(uploadYear, normalizedUploadMonth, uploadDay);
+
+  // Calculate real difference
+  const diffInTime = todayDate - uploadDate;
+  const diffInDays = Math.floor(diffInTime / (1000 * 60 * 60 * 24)) - cancelDays;
+
+  return diffInDays >= 0 && selectedDays.includes(diffInDays);
 };
+
 
 // Fetch todos that match today's date or the selected days
 export const getTodayTodos = async () => {
