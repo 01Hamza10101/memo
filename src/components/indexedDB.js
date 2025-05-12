@@ -111,7 +111,6 @@ const parseDate = (dateString) => {
 const isSelectedDay = (uploadDate, todayDate, Cancel) => {
   const selectedDays = [1, 2, 3, 5, 7, 9, 12, 15, 19, 23, 25];
   const diff = todayDate - uploadDate - Cancel;
-  alert("isSelectedDay",diff,diff >= 0 && selectedDays.includes(diff))
   return diff >= 0 && selectedDays.includes(diff);
 };
 
@@ -131,7 +130,6 @@ export const getTodayTodos = async () => {
       return false;
     }
     const uploadDate = parseDate(item.date);
-    alert("Upload",uploadDate,todayDate,item.Cancel)
     return isSelectedDay(uploadDate, todayDate, item.Cancel);
   });
 
