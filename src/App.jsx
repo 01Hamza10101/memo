@@ -105,7 +105,7 @@ function App() {
 
       {
         isTodoTable && (
-          <div className="absolute h-screen flex flex-col bg-gray-800 z-20 w-screen sm:w-96 sm:right-0 border border-gray-700 p-4">
+          <div className="absolute flex flex-col bg-gray-800 z-20 w-screen sm:w-96 sm:right-0 border border-gray-700 p-4">
             <button className="absolute top-2 right-2" onClick={() => setIsTodoTable(false)}>
               <Icon.Cancel />
             </button>
@@ -129,7 +129,7 @@ function App() {
 
         <div className="flex flex-wrap justify-center gap-4">
           {todayTopicData.length > 0 ? (
-            todayTopicData.map(({ title, id, date, imageFile }) => (
+            todayTopicData.map(async ({ title, id, date, imageFile }) => (
               <TopicCard
                 key={id}
                 topic={{ title, id, imageFile }}
@@ -137,12 +137,12 @@ function App() {
                   setImageData(imageFile);
                   setIsViewingImage(true);
                 }}
-                onCompleted={() => {
-                  completedTodos(id);
+                onCompleted={async() => {
+                  await completedTodos(id);
                   loadTodos();
                 }}
-                onCancel={() => {
-                  CancelTodos(id);
+                onCancel={async() => {
+                  await CancelTodos(id);
                   loadTodos();
                 }}
               />
@@ -158,11 +158,11 @@ function App() {
               <div className="flex justify-between items-center">
                 <div>
                   <div className="font-bold">{title}</div>
-                  <div className="text-xs text-gray-400">Uploaded on {id}</div>
+                  <div className="text-xs text-gray-400">Uploaded on {new Date(id).toLocaleString()}</div>
                 </div>
-                <button className="hover:opacity-75" onClick={() => {
+                <button className="hover:opacity-75" onClick={async() => {
                   if (window.confirm("Are you sure you want to delete this item?")) {
-                    deleteTodo(id); loadTodos();
+                    await deleteTodo(id); loadTodos();
                   }
                 }}>
                   <Icon.Delete />

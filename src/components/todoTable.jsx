@@ -44,7 +44,7 @@ const TodoCalendarTable = ({ todos }) => {
                   </td>
                   <td className="bg-gray-900 border border-gray-700 px-2 py-2 text-[12px] sm:text-sm">
                     {todo.Cancel > 0 ? (
-                      <span className="text-yellow-400 font-semibold">Yes</span>
+                      <span className="text-yellow-400 font-semibold">Yes ({todo.Cancel})</span>
                     ) : (
                       "-"
                     )}

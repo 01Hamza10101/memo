@@ -36,7 +36,7 @@ function TopicCard({ topic, onDisplayImg, onCompleted, onCancel }) {
       {/* Title */}
       <div className="p-3">
         <h2 className="text-lg font-semibold truncate">{title}</h2>
-        <div className="font-mono text-xs text-gray-300">{id}</div>
+        <div className="font-mono text-xs text-gray-300">{new Date(id).toLocaleString()}</div>
       </div>
 
       {/* Image */}
