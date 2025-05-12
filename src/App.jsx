@@ -152,9 +152,9 @@ function App() {
           )}
         </div>
 
-        <div className="flex flex-wrap justify-start gap-4">
+        <div className="flex flex-wrap justify-center gap-4">
           {topicData.length > 0 && topicData.map(({ title, imageFile, id }) => (
-            <div key={id} className="w-72 bg-gray-700 rounded overflow-hidden shadow p-2">
+            <div key={id} className="w-full max-w-xs sm:max-w-sm md:max-w-md bg-gray-700 rounded overflow-hidden shadow p-2">
               <div className="flex justify-between items-center">
                 <div>
                   <div className="font-bold">{title}</div>
