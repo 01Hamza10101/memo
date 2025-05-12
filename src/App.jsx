@@ -20,11 +20,21 @@ function App() {
     loadTodos();
   }, []);
 
-  const loadTodos = async () => {
-    const [allTodos, todayTodos] = await Promise.all([getTodos(), getTodayTodos()]);
-    setTopicData(allTodos);
-    setTodayTopicData(todayTodos);
-  };
+ const loadTodos = async () => {
+  try {
+    const [allTodos, todayTodos] = await Promise.all([
+      getTodos(),
+      getTodayTodos(),
+    ]);
+    setTopicData(allTodos || []);
+    setTodayTopicData(todayTodos || []);
+  } catch (err) {
+    console.error("loadTodos error:", err);
+    setTopicData([]);          
+    setTodayTopicData([]);      
+  }
+};
+
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -72,11 +82,11 @@ function App() {
     }
   };
   return (
-    <div className="h-screen w-screen overflow-x-scroll hide-scrollbar bg-gray-800 text-white relative">
+    <div className="h-screen w-screen overflow-x-scroll hide-scrollbar bg-gray-900 text-white relative">
       {/* Add Topic Modal */}
       {isAddingTopic && (
-        <div className="absolute flex flex-col bg-gray-800 border border-gray-700 z-20 right-4 top-3 sm:w-96 p-4">
-          <button className="absolute top-2 right-2" onClick={() => setIsAddingTopic(false)}>
+        <div className="absolute flex flex-col bg-gray-700 border border-gray-700 rounded z-20 right-4 top-3 sm:w-96 p-4">
+          <button className="absolute top-2 right-2 cursor-pointer" onClick={() => setIsAddingTopic(false)}>
             <Icon.Cancel />
           </button>
           <div className="flex flex-col items-center justify-center h-full gap-4">
@@ -96,7 +106,7 @@ function App() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Title"
             />
-            <button className="p-2 bg-green-500 font-bold text-white w-full" onClick={handleTopicAdd}>
+            <button className="p-2 bg-green-500 font-bold text-white w-full cursor-pointer" onClick={handleTopicAdd}>
               Add
             </button>
           </div>
@@ -106,7 +116,7 @@ function App() {
       {
         isTodoTable && (
           <div className="absolute flex flex-col bg-gray-800 z-20 w-screen sm:w-96 sm:right-0 border border-gray-700 p-4">
-            <button className="absolute top-2 right-2" onClick={() => setIsTodoTable(false)}>
+            <button className="absolute top-2 right-2 cursor-pointer" onClick={() => setIsTodoTable(false)}>
               <Icon.Cancel />
             </button>
             <div className="mt-10">
@@ -118,11 +128,11 @@ function App() {
       {/* Main Content */}
       <div className="p-4 flex flex-col gap-4">
         <div className="flex justify-center items-center gap-2">
-         <button className="bg-gray-700 p-2 rounded" onClick={() => setIsTodoTable(true)}>
+          <button className="bg-gray-700 p-2 rounded cursor-pointer" onClick={() => setIsTodoTable(true)}>
             <Icon.Result />
           </button>
-          <input className="p-2 outline-0 bg-gray-700 rounded" placeholder="Topic" type="text" />
-          <button className="bg-gray-700 p-2 rounded" onClick={() => setIsAddingTopic(true)}>
+          <input className="p-2 outline-0 bg-gray-700 rounded disabled:cursor-not-allowed " disabled placeholder="Topic" type="text" />
+          <button className="bg-gray-700 p-2 rounded cursor-pointer" onClick={() => setIsAddingTopic(true)}>
             <Icon.Add />
           </button>
         </div>
@@ -137,11 +147,11 @@ function App() {
                   setImageData(imageFile);
                   setIsViewingImage(true);
                 }}
-                onCompleted={async() => {
+                onCompleted={async () => {
                   await completedTodos(id);
                   loadTodos();
                 }}
-                onCancel={async() => {
+                onCancel={async () => {
                   await CancelTodos(id);
                   loadTodos();
                 }}
@@ -160,13 +170,23 @@ function App() {
                   <div className="font-bold">{title}</div>
                   <div className="text-xs text-gray-400">Uploaded on {new Date(id).toLocaleString()}</div>
                 </div>
-                <button className="hover:opacity-75" onClick={async() => {
-                  if (window.confirm("Are you sure you want to delete this item?")) {
-                    await deleteTodo(id); loadTodos();
-                  }
-                }}>
+                <button
+                  className="hover:opacity-75 cursor-pointer"
+                  onClick={async () => {
+                    if (window.confirm("Are you sure you want to delete this item?")) {
+                      try {
+                        await deleteTodo(id);
+                        await loadTodos(); // ✅ Awaited
+                      } catch (err) {
+                        console.error("Error after deleting todo:", err);
+                        alert("Failed to reload todos. See console for details.");
+                      }
+                    }
+                  }}
+                >
                   <Icon.Delete />
                 </button>
+
               </div>
               <div className="relative mt-2">
                 <button

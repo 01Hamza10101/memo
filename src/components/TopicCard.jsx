@@ -7,7 +7,7 @@ const IconWrapper = ({ children }) => (
 );
 
 function TopicCard({ topic, onDisplayImg, onCompleted, onCancel }) {
-  const { title = "Title", id = "ID123", imageFile } = topic || {};
+  const { title, id , imageFile } = topic || {};
 
   const handleOpenImage = () => {
     if (!imageFile || typeof imageFile !== "string") {
@@ -60,13 +60,13 @@ function TopicCard({ topic, onDisplayImg, onCompleted, onCancel }) {
       {/* Action Buttons */}
       <div className="flex justify-between h-16 p-3">
         <button
-          className="flex-1 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white py-2 rounded-l-lg"
+          className="flex-1 flex items-center justify-center cursor-pointer bg-green-500 hover:bg-green-600 text-white py-2 rounded-l-lg"
           onClick={onCompleted}
         >
           <Icon.Correct />
         </button>
         <button
-          className="flex-1 flex items-center justify-center bg-red-500 hover:bg-red-600 text-white py-2 rounded-r-lg"
+          className="flex-1 flex items-center justify-center cursor-pointer bg-red-500 hover:bg-red-600 text-white py-2 rounded-r-lg"
           onClick={onCancel}
         >
           <Icon.Cancel />

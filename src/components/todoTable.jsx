@@ -1,14 +1,16 @@
-"use client";
 import React from "react";
 
 const TodoCalendarTable = ({ todos }) => {
-  const today = new Date().toISOString().split("T")[0];
+const today = new Date();
+today.setHours(0, 0, 0, 0); // strip time for accurate comparison
 
-  const filteredTodos = todos.filter((todo) => {
-    const [day, month, year] = todo.date.split("/");
-    const todoDateFormatted = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-    return todoDateFormatted < today;
-  });
+const filteredTodos = todos.filter((todo) => {
+  const [day, month, year] = todo.date.split("/"); // assuming "DD/MM/YYYY"
+  const todoDate = new Date(`${year}-${month}-${day}`);
+  todoDate.setHours(0, 0, 0, 0); // normalize time
+  return todoDate.getTime() === today.getTime(); // or use < / > / >= / <= depending on intent
+});
+
 
   return (
     <div className="overflow-x-auto w-full">
