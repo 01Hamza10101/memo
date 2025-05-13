@@ -90,15 +90,15 @@ function App() {
             <Icon.Cancel />
           </button>
           <div className="flex flex-col items-center justify-center h-full gap-4">
+            <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleImageChange} />
             {!selectedImage ? (
               <>
-                <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleImageChange} />
                 <div onClick={handleClickImage}>
                   <Icon.ImageAdd />
                 </div>
               </>
             ) : (
-              <img className="h-40 object-contain" src={imageData} alt="Selected" />
+              <img className="h-40 object-contain cursor-pointer" onClick={handleClickImage} src={imageData} alt="Selected" />
             )}
             <input
               className="outline-0 border-0 bg-gray-600 text-white p-2 w-full"
